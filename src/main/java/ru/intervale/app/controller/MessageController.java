@@ -13,9 +13,8 @@ public class MessageController {
         this.producer = producer;
     }
 
-
     @PostMapping("/person")
-    public ResponseEntity<String> sendPerson(@RequestBody Person person){
+    public ResponseEntity<String> sendPerson(@RequestBody Person person) {
         producer.sendMessage(person);
         return ResponseEntity.ok("Message sent to RabbitMQ ...");
     }
