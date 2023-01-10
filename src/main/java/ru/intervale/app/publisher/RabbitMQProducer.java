@@ -6,8 +6,12 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.intervale.app.domain.Person;
+import ru.intervale.app.domain.Type;
+import ru.intervale.app.utils.Utility;
 
 import java.util.Objects;
+
+import static ru.intervale.app.domain.Type.FIZ;
 
 @Service
 public class RabbitMQProducer {
@@ -27,8 +31,9 @@ public class RabbitMQProducer {
 
     public void sendMessage(Person person) {
         if (Objects.nonNull(person)){
+            byte[] person2Bytes = Utility.serialize(person);
             LOGGER.info(String.format("Message sent -> %s", person));
-            rabbitTemplate.convertAndSend(exchange, routingKey, person);
+            rabbitTemplate.convertAndSend(exchange, routingKey, person2Bytes);
         }
     }
 }
